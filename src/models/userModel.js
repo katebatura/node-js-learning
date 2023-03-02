@@ -28,10 +28,11 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  permissions: [String],
   password: {
     type: String,
     required: [true, 'Please provide a password'],
-    minlength: 4,
+    minlength: 8,
     select: false,
   },
   passwordConfirm: {
@@ -64,6 +65,12 @@ userSchema.pre('save', async function (next) {
 
   // Delete passwordConfirm field
   this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.pre('save', (next) => {
+  if (this.role === 'user') this.permissins = [];
+  if (this.role === 'admin') this.permissins = ['analyze'];
   next();
 });
 

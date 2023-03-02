@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 // eslint-disable-next-line import/extensions
 const AppError = require('./src/utils/appError');
@@ -8,6 +9,7 @@ const userRouter = require('./src/routes/userRoutes');
 
 const app = express();
 app.use(express.json());
+app.use(cors({ origin: true })); // enable origin cors
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
